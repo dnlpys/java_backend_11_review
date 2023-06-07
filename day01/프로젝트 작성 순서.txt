@@ -36,4 +36,4 @@
 	2.서비스	 : test.com.project.member.service
 		 - MemberService.java
 	3.리포지토리  : test.com.project.member.model
-		- MemberDAO(interface) <-- MemberDAOimpl(class)
+		- MemberDAO(interface) <-- MemberDAOimpl(class) 
