@@ -1,0 +1,39 @@
+가.프로젝트 생성
+	1.패키지 설정
+	2.프로젝트 실행
+	3.브라우저 확인
+나.pom.xml
+	사용할 라이브러리 등록
+	1.오라클 + 마이바티스,jdbc탬플릿,dbcp
+	2.몽고디비 + 컨피그레이션
+	3.롬복
+	4.젝손
+	5.파일업로드(2개)
+다. 빈등록
+	1.root-context.xml
+		a.오라클,마이바티스 용 Bean 4개 추가.
+			ㄱ.src/main/resources/jdbc/oracle.properties
+				- 오라클디벨로퍼 실행해서 잘 동작하는지 확인
+				- multi 사용자 등록(비번 hi123456)
+					** system/다른사용자/사용자생성
+					** 권한 - 롤(커넥트,리소스),시스템권한(뷰생성)
+					** 새접속으로 커넥트 확인.
+			ㄴ.src/main/resources/jdbc/sqlMapper_member.xml
+		b.파일업로드용 빈등록(multipartResolver)
+			
+	2.@Configuration + @Bean
+		a.몽고디비 데이터베이스(multi),컬렉션(member)
+		b. ex)MemberConfig.java
+		
+	3.servlet-context.xml
+		a.인터셉터 용 클래스 - LoginIntercepter.java
+		b.Bean 등록
+라.컴포넌트 등록
+	0.VO  : test.com.project.member.model
+		- MemberVO(@Data-lombok)
+	1.컨트롤러 : test.com.project.member.controller
+		 - MemberController.java,MemberRestController.java
+	2.서비스	 : test.com.project.member.service
+		 - MemberService.java
+	3.리포지토리  : test.com.project.member.model
+		- MemberDAO(interface) <-- MemberDAOimpl(class)
