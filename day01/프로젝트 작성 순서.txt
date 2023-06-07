@@ -1,14 +1,18 @@
+프로젝트 작성 순서
+
 가.프로젝트 생성
 	1.패키지 설정
 	2.프로젝트 실행
 	3.브라우저 확인
+
 나.pom.xml
 	사용할 라이브러리 등록
 	1.오라클 + 마이바티스,jdbc탬플릿,dbcp
-	2.몽고디비 + 컨피그레이션
+	2.몽고디비 + 컨피그레이션 
 	3.롬복
 	4.젝손
 	5.파일업로드(2개)
+
 다. 빈등록
 	1.root-context.xml
 		a.오라클,마이바티스 용 Bean 4개 추가.
@@ -18,9 +22,14 @@
 					** system/다른사용자/사용자생성
 					** 권한 - 롤(커넥트,리소스),시스템권한(뷰생성)
 					** 새접속으로 커넥트 확인.
+					** member 테이블 생성 
+					** seq_member 시퀀스생성
+					** 임의의 회원정보 할당(10개)
 			ㄴ.src/main/resources/jdbc/sqlMapper_member.xml
+				-입력,수정,삭제,검색
 		b.파일업로드용 빈등록(multipartResolver)
 			
+
 	2.@Configuration + @Bean
 		a.몽고디비 데이터베이스(multi),컬렉션(member)
 		b. ex)MemberConfig.java
@@ -28,12 +37,94 @@
 	3.servlet-context.xml
 		a.인터셉터 용 클래스 - LoginIntercepter.java
 		b.Bean 등록
-라.컴포넌트 등록
+
+라.컴포넌트 등록 (HomeController.java- /,/home.do)
 	0.VO  : test.com.project.member.model
 		- MemberVO(@Data-lombok)
+		- num,id,pw,name,tel
+		- MultipartFile,save_name 추가
 	1.컨트롤러 : test.com.project.member.controller
-		 - MemberController.java,MemberRestController.java
+		a. MemberController.java,
+			- m_selectAll.do
+			- m_selectOne.do
+			...	
+		b. MemberRestController.java
+			- json_m_selectAll.do
+			- json_m_selectOne.do
+			...
 	2.서비스	 : test.com.project.member.service
-		 - MemberService.java
+		 a. MemberService.java
+			-  selectAll():List<MemberVO>
+			- selectOne(MemberVO):MemberVO
+			...
 	3.리포지토리  : test.com.project.member.model
-		- MemberDAO(interface) <-- MemberDAOimpl(class) 
+		a. MemberDAO(interface) <-- MemberDAOimpl(class)
+			-  selectAll():List<MemberVO>
+			- selectOne(MemberVO):MemberVO
+			...			
+
+마.뷰처리 페이지 등록
+	1.home.jsp
+	2.top_menu.jsp
+	3.회원가입용 페이지들...
+		a.member폴더 생성
+		b.selectAll.jsp
+			- sqlMapper_member.xml
+				ㄱ.select tag 추가 - M_SELECT_ALL
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					selectAll()함수콜.
+						sqlSession.selectList("M_SELECT_ALL")
+				ㄷ.model.addAttribute("vos",vos)
+				ㄹ.jsp->jstl->EL표현
+		c.selectOne.jsp
+			- sqlMapper_member.xml
+				ㄱ.select tag 추가 - M_SELECT_ONE
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					selectOne(vo)함수콜.
+						sqlSession.selectOne("M_SELECT_ONE",vo)
+				ㄷ.model.addAttribute("vo2",vo2)
+				ㄹ.jsp->EL표현
+		d.insert.jsp : enctype="multipart/form-data"
+			- m_insertOK.do
+			- web.xml : 한글처리 필터 추가
+				ㄱ.insert tag 추가 - M_INSERT
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					insert(vo)함수콜.
+						sqlSession.insert("M_INSERT",vo)
+				ㄷ.리절트값에 따라서 리다이렉트 분기처리
+
+		e.update.jsp
+			- update.do : 업데이트페이지 디스플레이 - sqlMapper_member.xml
+				ㄱ.select tag 추가 - M_SELECT_ONE
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					selectOne(vo)함수콜.
+						sqlSession.selectOne("M_SELECT_ONE",vo)
+				ㄷ.model.addAttribute("vo2",vo2)
+				ㄹ.jsp->EL표현
+			- m_updateOK.do
+			- web.xml : 한글처리 필터 추가
+				ㄱ.update tag 추가 - M_UPDATE
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					update(vo)함수콜.
+						sqlSession.update("M_UPDATE",vo)
+				ㄷ.리절트값에 따라서 리다이렉트 분기처리
+		f.deleteOK.do
+			- m_deleteOK.do
+				ㄱ.delete tag 추가 - M_DELETE
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					delete(vo)함수콜.
+						sqlSession.delete("M_DELETE",vo)
+				ㄷ.리절트값에 따라서 리다이렉트 분기처리
+
+		g.login.jsp
+			
+	4.CSS,javascript,jquery 추가.
+
+바.로그인 처리
+	1.인터셉터 + 세션 + 탑메뉴 정리

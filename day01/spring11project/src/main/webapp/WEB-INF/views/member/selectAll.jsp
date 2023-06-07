@@ -31,6 +31,7 @@
 			<th>pw</th>
 			<th>name</th>
 			<th>tel</th>
+			<th>img</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -41,6 +42,7 @@
 				<td>${vo.pw}</td>
 				<td>${vo.name}</td>
 				<td>${vo.tel}</td>
+				<td><img width="35px" src="resources/uploadimg/thumb_${vo.save_name}"></td>
 			</tr>
 		</c:forEach>
 	</tbody>

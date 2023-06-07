@@ -29,6 +29,11 @@
 				<td>${vo2.name}</td>
 				<td>${vo2.tel}</td>
 			</tr>
+			<tr>
+				<td colspan="5">
+					<img src="resources/uploadimg/${vo2.save_name}">
+				</td>
+			</tr>
 		</tbody>
 		<tfoot>
 			<tr>

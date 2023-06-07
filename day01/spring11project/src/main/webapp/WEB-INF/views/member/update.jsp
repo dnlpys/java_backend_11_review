@@ -11,7 +11,7 @@
 	<jsp:include page="../top_menu.jsp"></jsp:include>
 	<h1>회원수정</h1>
 	
-	<form action="m_updateOK.do" method="post">
+	<form action="m_updateOK.do" method="post" enctype="multipart/form-data">
 		<table id="memberList">
 			<tr>
 				<td><label for="num">num:</label></td>
@@ -34,6 +34,13 @@
 			<tr>
 				<td><label for="tel">tel:</label></td>
 				<td><input type="text" id="tel" name="tel" value="${vo2.tel}"></td>
+			</tr>
+			<tr>
+				<td><label for="file">file:</label></td>
+				<td>
+					<input type="file" id="file" name="file">
+					<input type="hidden" id="save_name" name="save_name" value="${vo2.save_name}">
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="회원수정완료"></td>
