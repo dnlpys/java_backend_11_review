@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ public class MemberController {
 
 	@Autowired
 	ServletContext sContext;
+	
+	@Autowired
+	HttpSession session;
 
 	@RequestMapping(value = "/m_selectAll.do", method = RequestMethod.GET)
 	public String m_selectAll(Model model) {
@@ -152,8 +156,9 @@ public class MemberController {
 		log.info("vo2...{}",vo2);
 		
 		if(vo2 == null) {
-			return "redirect:login.do";
+			return "redirect:login.do?message=fail";
 		}else {
+			session.setAttribute("user_id", vo2.getId());
 			return "redirect:home.do";
 		}
 
@@ -176,6 +181,8 @@ public class MemberController {
 	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
 	public String logout() {
 		log.info("/logout.do");
+		
+		session.invalidate();
 
 		return "redirect:home.do";
 	}
@@ -203,9 +210,12 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
-	public String login() {
-		log.info("/login.do");
+	public String login(String message,Model model) {
+		log.info("/login.do....{}",message);
 
+		if(message!=null) message = "아이디/비번 을 확인하세요";
+		model.addAttribute("message", message);
+		
 		return "member/login";
 	}
 

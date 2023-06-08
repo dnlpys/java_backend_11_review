@@ -21,21 +21,25 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		log.info("preHandle()....");
 		
-//		String sPath = request.getServletPath();
-//		log.info("preHandle()....{}",sPath);
-//		
-//		String user_id = (String) session.getAttribute("user_id");
-//		log.info("preHandle()....user_id : {}",user_id);
-//		
-//		
-//		if(sPath.equals("/selectAll.do")
-//				|| sPath.equals("/selectOne.do")) {
-//			
-//			if(user_id == null) {
-//				response.sendRedirect("login.do");
-//				return false;
-//			}
-//		}
+		String sPath = request.getServletPath();
+		log.info("preHandle()....{}",sPath);
+		
+		String user_id = (String) session.getAttribute("user_id");
+		log.info("preHandle()....user_id : {}",user_id);
+		
+		
+		if(sPath.equals("/b_selectAll.do")
+				|| sPath.equals("/m_selectAll.do")
+				|| sPath.equals("/b_selectOne.do")
+				|| sPath.equals("/m_selectOne.do")
+				|| sPath.equals("/b_update.do")
+				|| sPath.equals("/m_update.do")) {
+			
+			if(user_id == null) {
+				response.sendRedirect("login.do");
+				return false;
+			}
+		}
 		
 		return true;
 	}

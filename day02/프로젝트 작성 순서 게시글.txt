@@ -1,0 +1,142 @@
+프로젝트 작성 순서
+
+가.프로젝트 생성
+	1.패키지 설정
+	2.프로젝트 실행
+	3.브라우저 확인
+
+나.pom.xml
+	사용할 라이브러리 등록
+	1.오라클 + 마이바티스,jdbc탬플릿,dbcp
+	2.몽고디비 + 컨피그레이션 
+	3.롬복
+	4.젝손
+	5.파일업로드(2개)
+
+다. 빈등록
+	1.root-context.xml
+		a.오라클,마이바티스 용 Bean 4개 추가.
+			ㄱ.src/main/resources/jdbc/oracle.properties
+				- 오라클디벨로퍼 실행해서 잘 동작하는지 확인
+				- multi 사용자 등록(비번 hi123456)
+					** system/다른사용자/사용자생성
+					** 권한 - 롤(커넥트,리소스),시스템권한(뷰생성)
+					** 새접속으로 커넥트 확인.
+					** board 테이블 생성 
+					** seq_board 시퀀스생성
+					** 임의의 게시글정보 할당(10개)
+			ㄴ.src/main/resources/jdbc/sqlMapper_board.xml
+				-입력,수정,삭제,검색
+		b.파일업로드용 빈등록(multipartResolver)
+			
+
+	2.@Configuration + @Bean
+		a.몽고디비 데이터베이스(multi),컬렉션(member,board)
+		b. ex)MemberConfig.java,BoardConfig.java
+		
+	3.servlet-context.xml
+		a.인터셉터 용 클래스 - LoginIntercepter.java
+		b.Bean 등록
+
+라.컴포넌트 등록 (HomeController.java- /,/home.do)
+	0.VO  : test.com.project.board.model
+		- BoardVO(@Data-lombok)
+		- wnum,title,content,writer,wdate,vcount
+	1.컨트롤러 : test.com.project.board.controller
+		a. BoardController.java,
+			- b_selectAll.do
+			- b_selectOne.do
+			...	
+		b. BoardRestController.java
+			- json_b_selectAll.do
+			- json_b_selectOne.do
+			...
+	2.서비스	 : test.com.project.board.service
+		 a. BoardService.java
+			-  selectAll():List<BoardVO>
+			- selectOne(BoardVO):BoardVO
+			...
+	3.리포지토리  : test.com.project.board.model
+		a. BoardDAO(interface) <-- BoardDAOimpl(class)
+			-  selectAll():List<BoardVO>
+			- selectOne(BoardVO):BoardVO
+			...			
+
+마.뷰처리 페이지 등록
+	1.home.jsp
+	2.top_menu.jsp
+	3.게시글용 페이지들...
+		a.board폴더 생성
+		b.selectAll.jsp
+				ㄱ.sqlMapper_board.xml : select tag 추가 - B_SELECT_ALL
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					selectAll()함수콜.
+						sqlSession.selectList("B_SELECT_ALL")
+				ㄷ.model.addAttribute("vos",vos)
+				ㄹ.jsp->jstl->EL표현
+		c.selectOne.jsp
+				ㄱ.sqlMapper_board.xml : select tag 추가 - B_SELECT_ONE
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					selectOne(vo)함수콜.
+						sqlSession.selectOne("B_SELECT_ONE",vo)
+				ㄷ.model.addAttribute("vo2",vo2)
+				ㄹ.뷰카운트 증가
+				ㅁ.jsp->EL표현
+		d.insert.jsp : b_insert.do
+			- b_insertOK.do
+			- web.xml : 한글처리 필터 추가
+				ㄱ.sqlMapper_board.xml : insert tag 추가 - B_INSERT
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					insert(vo)함수콜.
+						sqlSession.insert("B_INSERT",vo)
+				ㄷ.리절트값에 따라서 리다이렉트 분기처리
+
+		e.update.jsp
+			- b_update.do : 업데이트페이지 디스플레이 - 
+				ㄱ.sqlMapper_board.xml : select tag 추가 - B_SELECT_ONE
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					selectOne(vo)함수콜.
+						sqlSession.selectOne("B_SELECT_ONE",vo)
+				ㄷ.model.addAttribute("vo2",vo2)
+				ㄹ.jsp->EL표현
+			- b_updateOK.do
+			- web.xml : 한글처리 필터 추가
+				ㄱ.sqlMapper_board.xml : update tag 추가 - B_UPDATE
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					update(vo)함수콜.
+						sqlSession.update("B_UPDATE",vo)
+				ㄷ.리절트값에 따라서 리다이렉트 분기처리
+		f.b_deleteOK.do
+			- b_deleteOK.do
+				ㄱ.sqlMapper_board.xml : delete tag 추가 - B_DELETE
+				ㄴ.@autowired
+				   DAOimpl->service->controller
+					delete(vo)함수콜.
+						sqlSession.delete("B_DELETE",vo)
+				ㄷ.리절트값에 따라서 리다이렉트 분기처리
+
+		
+		g.selectAll.jsp
+			- /b_searchList.do : searchKey,searchWord
+				ㄱ.sqlMapper_board.xml : 두개추가
+					a.select tag 추가 - 
+						B_SEARCH_LIST_TITLE,
+						B_SEARCH_LIST_CONTENT
+						B_SEARCH_LIST_WRITER
+				ㄴ.ㄴ.@autowired
+				   DAOimpl->service->controller
+					searchList(searchKey,searchWord)함수콜.
+				ㄷ.검색키별로 분기
+					title:sqlSession.selectList("B_SEARCH_LIST_TITLE",searchWord)
+					content:sqlSession.selectList("B_SEARCH_LIST_CONTENT",searchWord)
+					writer:sqlSession.selectList("B_SEARCH_LIST_WRITER",searchWord)
+				ㄹ.결과를 List<BoardVO>로 받아서 model.addAttribute("vos",vos);
+	4.CSS,javascript,jquery 추가.
+
+바.로그인 처리
+	1.인터셉터 + 세션 + 탑메뉴 정리

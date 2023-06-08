@@ -22,44 +22,55 @@ public class BoardDAOimpl implements BoardDAO {
 	@Override
 	public int insert(BoardVO vo) {
 		log.info("insert()....{}",vo);
-		return 0;
+		return sqlSession.insert("B_INSERT",vo);
 	}
 
 	@Override
 	public int update(BoardVO vo) {
 		log.info("update()....{}",vo);
-		return 0;
+		return sqlSession.update("B_UPDATE",vo);
 	}
 
 	@Override
 	public int delete(BoardVO vo) {
 		log.info("delete()....{}",vo);
-		return 0;
+		return sqlSession.delete("B_DELETE",vo);
 	}
 
 	@Override
 	public List<BoardVO> selectAll() {
 		log.info("selectAll()....");
-		return null;
+		return sqlSession.selectList("B_SELECT_ALL");
 	}
 
 	@Override
 	public BoardVO selectOne(BoardVO vo) {
 		log.info("selectOne()....{}",vo);
-		return null;
+		
+		return sqlSession.selectOne("B_SELECT_ONE",vo);
 	}
 
 	@Override
 	public List<BoardVO> searchList(String searchKey, String searchWord) {
 		log.info("searchList()....searchKey:{}",searchKey);
 		log.info("searchList()....searchWord:{}",searchWord);
-		return null;
+		String key = "";
+		if(searchKey.equals("title")) {
+			key = "B_SEARCH_LIST_TITLE";
+		}else if(searchKey.equals("content")) {
+			key = "B_SEARCH_LIST_CONTENT";
+			
+		}else {
+			key = "B_SEARCH_LIST_WRITER";
+			
+		}
+		return sqlSession.selectList(key,"%"+searchWord+"%");
 	}
 
 	@Override
 	public void vcountUp(BoardVO vo) {
 		log.info("vcountUp()....{}",vo);
-
+		sqlSession.update("B_VCOUNT_UP",vo);
 	}
 
 }

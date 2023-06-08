@@ -15,7 +15,7 @@
 		<table>
 			<tr>
 				<td><label for="id">id:</label></td>
-				<td><input type="text" id="id" name="id" value="tester"></td>
+				<td><input type="text" id="id" name="id" value="tester1"></td>
 			</tr>
 			<tr>
 				<td><label for="pw">pw:</label></td>
@@ -27,6 +27,7 @@
 			</tr>
 		</table>
 	</form>
+	<p>${message}</p>
 	
 </body>
 </html>
