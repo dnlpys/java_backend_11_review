@@ -31,6 +31,7 @@
 				<value>classpath:jdbc/sqlMapper_board.xml</value>
 				<value>classpath:jdbc/sqlMapper_comments.xml</value>
 				<value>classpath:jdbc/sqlMapper_movie.xml</value>
+				<value>classpath:jdbc/sqlMapper_reservation.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -11,6 +11,9 @@
 	<li><a href="mv_insert.do">영화등록</a></li>
 	<li><a href="mv_selectAll.do">영화목록</a></li>
 	
+	<li><a href="r_insert.do">영화예매</a></li>
+	<li><a href="r_selectAll.do">영화예매목록</a></li>
+	
 	
 	<li><a href="login.do">로그인</a></li>
 	<li><a href="logout.do">로그아웃</a></li>

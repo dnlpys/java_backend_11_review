@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="test.com.project.reservation">
+<!-- 	<select id="R_SELECT_ALL" resultType="test.com.project.reservation.model.ReservationVO"> -->
+<!-- 		select * from reservation order by num desc -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="R_SELECT_ONE" resultType="test.com.project.reservation.model.ReservationVO"> -->
+<!-- 		select * from reservation where num = #{num} -->
+<!-- 	</select> -->
+	
+	
+<!-- 	<select id="R_SEARCH_LIST_TITLE" resultType="test.com.project.reservation.model.ReservationVO"> -->
+<!-- 		select * from reservation where title like #{searchWord} -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="R_SEARCH_LIST_PRODUCER" resultType="test.com.project.reservation.model.ReservationVO"> -->
+<!-- 		select * from reservation where producer like #{searchWord}  -->
+<!-- 	</select> -->
+	
+	
+	
+<!-- 	<insert id="R_INSERT" parameterType="test.com.project.reservation.model.ReservationVO"> -->
+<!-- 		insert into reservation(num,title,price,producer,save_name)  -->
+<!-- 		values(seq_reservation.nextval,#{title},#{price},#{producer},#{save_name}) -->
+<!-- 	</insert> -->
+	
+<!-- 	<update id="R_UPDATE" parameterType="test.com.project.reservation.model.ReservationVO"> -->
+<!-- 		update reservation set title=#{title} , price=#{price} ,  -->
+<!-- 				producer=#{producer} , save_name=#{save_name} -->
+<!-- 		where num = #{num} -->
+<!-- 	</update> -->
+	
+<!-- 	<delete id="R_DELETE"> -->
+<!-- 		delete from reservation where num = #{num} -->
+<!-- 	</delete> -->
+	
+</mapper>
