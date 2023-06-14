@@ -7,7 +7,7 @@
 	<select id="R_SELECT_ALL" resultType="test.com.project.reservation.model.ReservationVO">
 		select r.num,r.user_id,r.movie_num,m.title,r.regdate,r.movie_date,r.mcount ,m.price ,m.save_name
 		from reservation r join movie m on (r.movie_num = m.num) 
-		where user_id=#{user_id} order by num desc;
+		where user_id=#{user_id} order by num desc
 	</select>
 	
 <!-- 	<select id="R_SELECT_ONE" resultType="test.com.project.reservation.model.ReservationVO"> -->
@@ -15,13 +15,19 @@
 <!-- 	</select> -->
 	
 	
-<!-- 	<select id="R_SEARCH_LIST_TITLE" resultType="test.com.project.reservation.model.ReservationVO"> -->
-<!-- 		select * from reservation where title like #{searchWord} -->
-<!-- 	</select> -->
+	<select id="R_SEARCH_LIST_TITLE" resultType="test.com.project.reservation.model.ReservationVO">
+		select r.num,r.user_id,r.movie_num,m.title,r.regdate,r.movie_date,r.mcount ,m.price ,m.save_name
+		from reservation r join movie m on (r.movie_num = m.num) 
+		where user_id=#{user_id} and title like #{searchWord}
+		order by num desc
+	</select>
 	
-<!-- 	<select id="R_SEARCH_LIST_PRODUCER" resultType="test.com.project.reservation.model.ReservationVO"> -->
-<!-- 		select * from reservation where producer like #{searchWord}  -->
-<!-- 	</select> -->
+	<select id="R_SEARCH_LIST_MOVIE_DATE" resultType="test.com.project.reservation.model.ReservationVO">
+		select r.num,r.user_id,r.movie_num,m.title,r.regdate,r.movie_date,r.mcount ,m.price ,m.save_name
+		from reservation r join movie m on (r.movie_num = m.num) 
+		where user_id=#{user_id} and movie_date like #{searchWord}
+		order by num desc
+	</select>
 	
 	
 	
@@ -38,8 +44,8 @@
 <!-- 		where num = #{num} -->
 <!-- 	</update> -->
 	
-<!-- 	<delete id="R_DELETE"> -->
-<!-- 		delete from reservation where num = #{num} -->
-<!-- 	</delete> -->
+	<delete id="R_DELETE">
+		delete from reservation where user_id=#{user_id} and num = #{num}
+	</delete>
 	
 </mapper>
