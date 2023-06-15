@@ -41,6 +41,16 @@ public class MongoMemberRestController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/mongo_findAll_doc.do", method = RequestMethod.GET)
+	public List<Document> mongo_findAll_doc() {
+		log.info("/mongo_findAll_doc.do");
+		
+		List<Document> list = service.findAll_doc();
+		
+		return list;
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/mongo_findAll2.do", method = RequestMethod.GET)
 	public List<MongoMemberVO> mongo_findAll2(int page, int limit) {
 		log.info("/mongo_findAll2.do...{},{}",page,limit);
@@ -89,6 +99,16 @@ public class MongoMemberRestController {
 		log.info("/mongo_findOne.do....{}",vo);
 		
 		MongoMemberVO vo2 = service.findOne(vo);
+		
+		return vo2;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/mongo_findOne_idCheck.do", method = RequestMethod.GET)
+	public MongoMemberVO mongo_findOne_idCheck(MongoMemberVO vo) {
+		log.info("/mongo_findOne_idCheck.do....{}",vo);
+		
+		MongoMemberVO vo2 = service.findOne_idCheck(vo);
 		
 		return vo2;
 	}

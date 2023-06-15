@@ -24,4 +24,8 @@ public interface MongoMemberDAO {
 
 	public int delete(MongoMemberVO vo);
 
+	public MongoMemberVO findOne_idCheck(MongoMemberVO vo);
+
+	public List<Document> findAll_doc();
+
 }

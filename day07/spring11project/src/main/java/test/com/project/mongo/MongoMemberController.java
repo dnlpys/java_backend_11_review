@@ -30,11 +30,25 @@ public class MongoMemberController {
 		return "mongo/member/insert";
 	}
 	
+	@RequestMapping(value = "/mongo_update.do", method = RequestMethod.GET)
+	public String mongo_update() {
+		log.info("/mongo_update.do");
+		
+		return "mongo/member/update";
+	}
+	
 	@RequestMapping(value = "/mongo_selectAll.do", method = RequestMethod.GET)
 	public String mongo_selectAll() {
 		log.info("/mongo_selectAll.do");
 		
 		return "mongo/member/selectAll";
+	}
+	
+	@RequestMapping(value = "/mongo_selectOne.do", method = RequestMethod.GET)
+	public String mongo_selectOne() {
+		log.info("/mongo_selectOne.do");
+		
+		return "mongo/member/selectOne";
 	}
 	
 	

@@ -53,6 +53,16 @@ public class MongoMemberService {
 	public int delete(MongoMemberVO vo) {
 		return dao.delete(vo);
 	}
+
+
+	public MongoMemberVO findOne_idCheck(MongoMemberVO vo) {
+		return dao.findOne_idCheck(vo);
+	}
+
+
+	public List<Document> findAll_doc() {
+		return dao.findAll_doc();
+	}
 	
 
 

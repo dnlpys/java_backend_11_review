@@ -30,7 +30,7 @@ public class MongoMemberDAOimpl implements MongoMemberDAO {
 		log.info("findAll()....");
 		List<MongoMemberVO> list = new ArrayList<MongoMemberVO>();
 
-		Bson sort = new Document("num", -1);//순정렬:1, 역정렬:-1
+		Bson sort = new Document("_id", -1);//순정렬:1, 역정렬:-1
 		
 		FindIterable<Document> docs = member.find().sort(sort);
 		for (Document doc : docs) {
@@ -74,23 +74,14 @@ public class MongoMemberDAOimpl implements MongoMemberDAO {
 		log.info("findOne()....{}", vo);
 
 		MongoMemberVO vo2 = new MongoMemberVO();
-		// db.member.find({num:1})
-//		Bson filter = new Document("num", vo.getNum());//번호검색
-//		FindIterable<Document> docs = member.find(filter);
+//		Bson filters = Filters.or(
+//									Filters.eq("num", vo.getNum()),
+//									Filters.eq("_id", 
+//											vo.getMid()==null?"":new ObjectId(vo.getMid()))
+//					   ); 
+		Bson filter = new Document("_id",vo.getMid()==null?"":new ObjectId(vo.getMid()));
 
-		// db.member.find({_id:"1dsadadsadwr342f3"})
-//		Bson filter = new Document("_id", new ObjectId(vo.getMid()));//오브젝트아이디 검색
-//		FindIterable<Document> docs = member.find(filter);
-
-		// 번호검색 or 오브젝트아이디 검색
-//		find({$or:[{num:1},{_id:"1dsadadsadwr342f3"}]})  
-		//where num=1 or _id='1dsadadsadwr342f3'
-		Bson filters = Filters.or(
-									Filters.eq("num", vo.getNum()),
-									Filters.eq("_id", 
-											vo.getMid()==null?"":new ObjectId(vo.getMid()))
-					   ); // 오브젝트아이디 널일때 빈문자로 대체
-		FindIterable<Document> docs = member.find(filters);
+		FindIterable<Document> docs = member.find(filter);
 
 		for (Document doc : docs) {
 			vo2.setMid(doc.get("_id").toString());
@@ -254,6 +245,36 @@ public class MongoMemberDAOimpl implements MongoMemberDAO {
 		return flag;
 	}
 
-	
+
+	@Override
+	public MongoMemberVO findOne_idCheck(MongoMemberVO vo) {
+		log.info("findOne_idCheck()....{}", vo);
+
+		MongoMemberVO vo2 = new MongoMemberVO();
+		Bson filter = new Document("id",vo.getId());
+		FindIterable<Document> docs = member.find(filter);
+
+		for (Document doc : docs) {
+			vo2.setId(doc.getString("id"));
+		}
+
+		return vo2;
+	}
+
+
+	@Override
+	public List<Document> findAll_doc() {
+		log.info("findAll()....");
+		List<Document> list = new ArrayList<Document>();
+
+		Bson sort = new Document("_id", -1);//순정렬:1, 역정렬:-1
+		
+		FindIterable<Document> docs = member.find().sort(sort);
+		for (Document doc : docs) {
+			list.add(doc);
+		}
+
+		return list;
+	}
 
 }
